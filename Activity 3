@@ -178,4 +178,11 @@ int rscore = super.getScore() - super.getTarget();
 Float over = super.getOver() - 90;
 return rscore/over;
 }
-public int calculateBalls() { 	 Float over = 90 - super.getOver(); int balls = (int)(over*6); return balls; } public void display(Float rr, int balls){ int rscore =super.getTarget() - super.getScore(); 	System.out.println("Need "+rscore+" runs in "+balls+" balls"); 	System.out.println("Required run rate: "+rr); 
+public int calculateBalls() { 	
+Float over = 90 - super.getOver();
+int balls = (int)(over*6); return balls; }
+public void display(Float rr, int balls){ 
+int rscore =super.getTarget() - super.getScore(); 	
+System.out.println("Need "+rscore+" runs in "+balls+" balls"); 
+System.out.println("Required run rate: "+rr); 
+}
