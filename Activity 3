@@ -128,61 +128,209 @@ public class Square extends Shape{
 
 2. Match
 
+package test;
+
+import java.io.*;
+
 import java.util.*;
-abstract class Match{	
-int currentscore;	
-Float currentover;	
-int target; 	
-public void setScore(int val)	{		
-currentscore=val;	} 	
-public void setOver(Float val)	{		
-currentover=val;	} 	
-public void setTarget(int val)	{		
-target=val;	} 	public int getScore()	{		
-return currentscore;	} 
-public Float getOver()	{		
-return currentover;	} 
-public int getTarget()	{	
-return target;	} 
-public abstract Float calculateRunRate();	
-public abstract int calculateBalls();
-public abstract void display(Float reqRunrate, int balls);}
-class ODImatch extends Match{
-Float over;
-public Float calculateRunRate() {
-int rscore = super.getScore() - super.getTarget(); 
-Float over = super.getOver() - 50; 
-return rscore/over; }
-public int calculateBalls() { 	
-Float over = 50 - super.getOver(); 
-int balls = (int)(over*6); 
-return balls; }
-public void display(Float rr, int balls){
-int rscore =super.getTarget() - super.getScore(); 
-System.out.println("Need "+rscore+" runs in "+balls+" balls"); 
-System.out.println("Required run rate: "+rr); 
-}} class T20match extends Match{public Float calculateRunRate() { 
-int rscore = super.getScore() - super.getTarget();
-Float over = super.getOver() - 20;
-return rscore/over; } 
-public int calculateBalls() { 	
-Float over = 20 - super.getOver(); 
-int balls = (int)(over*6); return balls; }
-public void display(Float rr, int balls){ 
-int rscore =super.getTarget() - super.getScore(); 
-System.out.println("Need "+rscore+" runs in "+balls+" balls"); 
-System.out.println("Required run rate: "+rr); }} 
-class TestMatch extends Match{	
-public Float calculateRunRate() {
-int rscore = super.getScore() - super.getTarget();
-Float over = super.getOver() - 90;
-return rscore/over;
+
+public class test{
+
+	
+	    public static void main(String[] args){
+	    	
+	    	Scanner sc = new Scanner(System.in);
+	    	
+	        System.out.println("Enter the match format");
+	    	
+	        float b,r;
+	    	int choice = sc.nextInt();
+	    	
+	    	switch(choice){
+	    	
+	    	case 1: Match O = new ODIMatch();
+	    	        O.getInput();
+	    	        b =  O.calculateBalls();
+	    	        r =  O.calculateRunRate();
+	    	        break;
+	    	case 2: Match TT = new T20Match();
+	    	        TT.getInput();
+	                b =  TT.calculateBalls();
+	                r =  TT.calculateRunRate();
+	    		    break;
+	    	case 3: Match T = new TestMatch();
+	    	        T.getInput();
+	                b =  T.calculateBalls();
+	                r =  T.calculateRunRate();
+	    		    break;
+	    		
+	    	default: System.out.println("ERROR in choice");
+	    	         System.exit(0);
+	    	
+	    	}
+	  
+	}
 }
-public int calculateBalls() { 	
-Float over = 90 - super.getOver();
-int balls = (int)(over*6); return balls; }
-public void display(Float rr, int balls){ 
-int rscore =super.getTarget() - super.getScore(); 	
-System.out.println("Need "+rscore+" runs in "+balls+" balls"); 
-System.out.println("Required run rate: "+rr); 
+Match.java
+package test;
+
+
+abstract public class Match {
+	
+	//Data members
+	protected int currentscore;
+	protected float currentover;
+	protected int target;
+    protected float runRate;
+    public static  int choice;
+    
+    
+
+	//methods
+	
+	abstract float calculateRunRate();
+    abstract int calculateBalls();
+	abstract void getInput();
+	
+}
+ODIMatch.java
+package test;
+
+import java.io.*;
+import java.util.Scanner;
+
+public class ODIMatch extends Match {
+	
+	public int runs,balls;
+	final int ODI_MAX = 50;
+	
+	Scanner sc = new Scanner(System.in);
+	
+       void getInput() {
+		
+		System.out.println("Enter current score: ");
+ 	    this.currentscore = sc.nextInt();
+        
+ 	    System.out.println("Enter current over: ");
+        this.currentover = sc.nextInt();
+        
+        System.out.println("Enter Target Score");
+        this.target = sc.nextInt();
+		
+	}
+	
+	int calculateBalls() {
+    	
+    	balls = (int) (ODI_MAX - currentover);
+    	runs = target - currentscore;
+    	
+    	return balls;
+		
+	}
+      float calculateRunRate() {
+    	  
+    	  runRate=runs/balls;
+          
+    	  System.out.println("Need "+runs+" runs in "+balls+ balls);
+    	  System.out.println("Required Run Rate: "+runRate);
+		  
+          return runRate;
+	}
+	
+       
+}
+ TestMatch.java
+  package test;
+
+import java.io.*;
+import java.util.Scanner;
+
+
+public class TestMatch extends Match{
+
+	public int runs,balls;
+	final int TEST_MAX = 90;
+	
+	Scanner sc = new Scanner(System.in);
+
+
+	int calculateBalls() {
+    	
+    	balls = (int) (TEST_MAX - currentover);
+    	runs = target - currentscore;
+    	
+    	return balls;
+		
+	}
+      float calculateRunRate() {
+    	  
+    	  runRate=runs/balls;
+          
+    	  System.out.println("Need "+runs+" runs in "+balls+ balls);
+    	  System.out.println("Required Run Rate: "+runRate);
+		  
+          return runRate;
+	}
+	
+    
+	
+       void getInput() {
+		
+		System.out.println("Enter current score: ");
+ 	    this.currentscore = sc.nextInt();
+        
+ 	    System.out.println("Enter current over: ");
+        this.currentover = sc.nextInt();
+        
+        System.out.println("Enter Target Score");
+        this.target = sc.nextInt();
+		
+	}
+}
+ T20Match.java
+ package test;
+
+import java.util.Scanner;
+
+public class T20Match extends Match {
+
+
+	public int runs,balls;
+	final int TEST_MAX = 20;
+	
+	Scanner sc = new Scanner(System.in);
+
+
+	int calculateBalls() {
+    	
+    	balls = (int) (TEST_MAX - currentover);
+    	runs = target - currentscore;
+    	
+    	return balls;
+		
+	}
+      float calculateRunRate() {
+    	  
+    	  runRate=runs/balls;
+          
+    	  System.out.println("Need "+runs+" runs in "+balls+ balls);
+    	  System.out.println("Required Run Rate: "+runRate);
+		  
+          return runRate;
+	}
+	
+    
+	
+       void getInput() {
+		
+		System.out.println("Enter current score: ");
+ 	    this.currentscore = sc.nextInt();
+        
+ 	    System.out.println("Enter current over: ");
+        this.currentover = sc.nextInt();
+        
+        System.out.println("Enter Target Score");
+        this.target = sc.nextInt();
+		
+	}
 }
